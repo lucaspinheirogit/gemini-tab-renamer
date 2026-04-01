@@ -15,7 +15,7 @@ function getText(el) {
 
 function applyTitle(el) {
   const title = getText(el);
-  if (title) {
+  if (title && title.length <= 500) {
     currentTitle = title;
     document.title = `${title} - Google Gemini`;
   }
