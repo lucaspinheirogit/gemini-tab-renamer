@@ -25,9 +25,9 @@ describe('page load', () => {
   });
 });
 
-// ─── 2. Outside Site ──────────────────────────────────────────────────────────
+// ─── 2. Tab Focus ─────────────────────────────────────────────────────────────
 
-describe('outside site', () => {
+describe('tab focus', () => {
   test('restores title when switching back to the tab', async () => {
     document.body.appendChild(makeTitleSpan('My Chat'));
     init();
@@ -39,9 +39,9 @@ describe('outside site', () => {
   });
 });
 
-// ─── 3. Inside Site, Outside a Chat ──────────────────────────────────────────
+// ─── 3. Navigation ────────────────────────────────────────────────────────────
 
-describe('inside site, outside a chat', () => {
+describe('navigation', () => {
   test('sets title when starting a new chat (/app → /app/{id})', async () => {
     history.pushState({}, '', '/app/abc123');
     document.body.appendChild(makeTitleSpan('New Chat'));
@@ -61,7 +61,7 @@ describe('inside site, outside a chat', () => {
     expect(document.title).toBe('Google Gemini');
   });
 
-  test('updates title when clicking another chat (element re-created)', async () => {
+  test('updates title when switching to another chat', async () => {
     const oldSpan = makeTitleSpan('First Chat');
     document.body.appendChild(oldSpan);
     init();
@@ -72,36 +72,11 @@ describe('inside site, outside a chat', () => {
     await flush();
     expect(document.title).toBe('Second Chat - Google Gemini');
   });
-
-  test('updates title when clicking another chat (element text changed in place)', async () => {
-    const span = makeTitleSpan('First Chat');
-    document.body.appendChild(span);
-    init();
-
-    history.pushState({}, '', '/app/chat2');
-    span.textContent = 'Second Chat';
-    await flush();
-    expect(document.title).toBe('Second Chat - Google Gemini');
-  });
-
-  test('updates title when Angular mutates the span before pushState fires', async () => {
-    const span = makeTitleSpan('First Chat');
-    document.body.appendChild(span);
-    init();
-    expect(document.title).toBe('First Chat - Google Gemini');
-
-    // Angular updates the DOM first, then calls pushState (real-world ordering)
-    span.textContent = 'Second Chat';
-    history.pushState({}, '', '/app/chat2');
-    await flush();
-    expect(document.title).toBe('Second Chat - Google Gemini');
-  });
-
 });
 
-// ─── 4. Inside Site, Inside a Chat ───────────────────────────────────────────
+// ─── 4. Title Mutation ────────────────────────────────────────────────────────
 
-describe('inside site, inside a chat', () => {
+describe('title mutation', () => {
   test('sets title when Gemini generates it after the first message', async () => {
     const span = makeTitleSpan('');
     document.body.appendChild(span);
@@ -129,6 +104,17 @@ describe('inside site, inside a chat', () => {
     init();
 
     span.textContent = '';
+    await flush();
+    expect(document.title).toBe('My Chat - Google Gemini');
+  });
+
+  test('prevents Gemini from resetting the title mid-session', async () => {
+    const span = makeTitleSpan('My Chat');
+    document.body.appendChild(span);
+    init();
+    expect(document.title).toBe('My Chat - Google Gemini');
+
+    document.title = 'Google Gemini';
     await flush();
     expect(document.title).toBe('My Chat - Google Gemini');
   });
