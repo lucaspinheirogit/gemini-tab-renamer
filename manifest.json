@@ -3,6 +3,11 @@
   "name": "Gemini Tab Renamer",
   "version": "1.0.0",
   "description": "Renames Gemini chat tabs to the conversation title instead of the generic 'Gemini' default.",
+  "icons": {
+    "96": "assets/favicon-96x96.png",
+    "192": "assets/web-app-manifest-192x192.png",
+    "512": "assets/web-app-manifest-512x512.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://gemini.google.com/app/*"],

@@ -1,5 +1,7 @@
 # Gemini Tab Renamer
 
+<img src="assets/web-app-manifest-512x512.png" alt="Gemini Tab Renamer" width="96" />
+
 A minimal Chrome extension that renames Gemini chat tabs to the conversation title, instead of the generic "Gemini" default.
 
 Tab titles follow the format: `{Conversation Title} - Google Gemini`
