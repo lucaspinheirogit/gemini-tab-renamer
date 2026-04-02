@@ -1,12 +1,14 @@
 {
   "name": "gemini-tab-renamer",
+  "description": "Renames Gemini chat tabs to the conversation title instead of the generic 'Gemini' default.",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
-    "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.0.0"
+    "jest": "30.3.0",
+    "jest-environment-jsdom": "30.3.0"
   },
   "jest": {
     "testEnvironment": "jest-environment-jsdom"
